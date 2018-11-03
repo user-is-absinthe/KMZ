@@ -15,7 +15,7 @@ alphabet = [
     'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'
 ]
 
-file = open('closed_text.txt', 'r')
+file = open('closed_text_2.txt', 'r')
 closed_text_raw = file.readline().replace('\n', '')
 file.close()
 print('Len your file-raw {}.'.format(len(closed_text_raw)))
