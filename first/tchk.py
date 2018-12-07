@@ -64,7 +64,7 @@ def replacer(line_list, view=100000):
             # if flag:
             #     print(now_text)
             #     input('Go next?')
-            if len(tchk_list) >= 4:
+            if len(tchk_list) >= 3:
                 print(now_text)
                 # input('Go next?')
             # input('\n')
@@ -82,4 +82,3 @@ if __name__ == '__main__':
         line_my_len = cut_text(bad_text, broken)
         replacer(line_my_len, 1)
     pass
-
