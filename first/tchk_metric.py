@@ -14,7 +14,7 @@ PATH = '1_0.3.txt'
 # open file in win1251
 
 POWER = 0.3
-MINIMAL = 4
+MINIMAL = 2
 
 
 def list_to_str(lst):
@@ -79,7 +79,8 @@ def replacer(line_list, view=100000, count_of_point=MINIMAL, polimorph=POWER):
                         now_line += line[permutation[index_letter]]
                     except IndexError:
                         continue
-                if 'ТЧК' in now_line or 'ЗПТ' in now_line:
+                # if 'ТЧК' in now_line or 'ЗПТ' in now_line:
+                if 'ТЧК' in now_line:
                     tchk_list.append(True)
                     now_line += ' <-'
                 now_text += now_line + '\n'
