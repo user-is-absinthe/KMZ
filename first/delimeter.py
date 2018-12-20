@@ -9,6 +9,7 @@ def list_to_str(lst):
         return_word += i
     return return_word
 
+
 if __name__ == '__main__':
     a = TEXT.replace(' ', '')
     index = LEN_CUT
