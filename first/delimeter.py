@@ -1,4 +1,4 @@
-TEXT = 'aaa'
+TEXT = 'avadddddda'
 
 LEN_CUT = 2
 

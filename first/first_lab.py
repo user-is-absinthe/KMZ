@@ -3,8 +3,8 @@ import itertools
 
 def list_to_str(lst):
     return_word = ''
-    for i in lst:
-        return_word += i
+    for ind in lst:
+        return_word += ind
     return return_word
 
 
