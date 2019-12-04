@@ -37,7 +37,7 @@ def main():
     # matplotlib.pyplot.show()
     connectivity_list = list()
     for node in graph.nodes:
-        connectivity_list.append(networkx.node_connected_component(graph, node))
+        connectivity_list.append(networkx.len(connectivity_list)(graph, node))
 
     mini_graphs_list = list()
     for connect in connectivity_list:
