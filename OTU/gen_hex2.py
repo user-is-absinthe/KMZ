@@ -14,13 +14,14 @@ PATH_TO_SAVE_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/out/'
 PATH_TO_CSV = PATH_TO_SAVE_FILES + r'!_meta.tsv'
 PATH_TO_IMG = PATH_TO_SAVE_FILES + r'groups/'
 PATH_TO_BAD = PATH_TO_SAVE_FILES + r'unknown/'
+PATH_TO_HEX = PATH_TO_SAVE_FILES + r'hex_files/'
 
 BADLY = 0
 HEX_DATA = list()
 ENCODING = 'utf-16'
 
 CH = [
-    PATH_TO_IMG, PATH_TO_BAD
+    PATH_TO_HEX, PATH_TO_BAD
 ]
 for p_i in CH:
     try:
@@ -72,79 +73,8 @@ def main():
                 separator='\t',
                 encode=ENCODING
             )
-            # all_data.append(to_file_l)
-            # write_data_bin(PATH_TO_HEX + file + '.hex', body_file)
-    #         big_graph.add_edge(to_file_l[4], to_file_l[5])
-    #
-    # networkx.draw(big_graph, with_labels=True)
-    # matplotlib.pyplot.savefig(PATH_TO_IMG + '!_big_graph.png', format='png')
-    # matplotlib.pyplot.close()
 
-    # weak_connectivity_list = sorted(
-    #     networkx.weakly_connected_components(big_graph),
-    #     key=len, reverse=True
-    # )
-    # minigraph_list = list()
-    # for user_list in weak_connectivity_list:
-    #     temp_graph = networkx.MultiDiGraph()
-    #     for user in user_list:
-    #         edges_in = big_graph.in_edges(user)
-    #         for edge in edges_in:
-    #             temp_graph.add_edge(edge[0], edge[1])
-    #         edges_out = big_graph.out_edges(user)
-    #         for edge in edges_out:
-    #             temp_graph.add_edge(edge[0], edge[1])
-    #         print(edges_in)
-    #         sys.exit(1)
-    #
-    #     minigraph_list.append(temp_graph)
-
-    # networkx.draw(big_graph)
-    # matplotlib.pyplot.show()
-
-    # data_dict = csv_reader(
-    #     path=PATH_TO_CSV, separator='\t',
-    #     headline=True, encode=ENCODING
-    # )
-    #
-    # for t_graph in minigraph_list:
-    #     user_list = t_graph.nodes
-    #     for node in user_list:
-    #         try:
-    #             # from_list = data_dict['from'].index(node)
-    #             from_list = [i for i, x in enumerate(data_dict['from']) if x == node]
-    #         except ValueError:
-    #             from_list = []
-    #         try:
-    #             # to_list = data_dict['to'].index(node)
-    #             to_list = [i for i, x in enumerate(data_dict['to']) if x == node]
-    #         except ValueError:
-    #             to_list = []
-    #
-    #         # print(from_list)
-    #         # print(to_list)
-    #
-    #     networkx.draw_shell(t_graph, with_labels=True)
-    #     save_patch = PATH_TO_IMG + str(user_list) + '/'
-    #     check_patch(save_patch)
-    #     matplotlib.pyplot.savefig(save_patch + '!_graph' + '.png', format='png')
-    #     matplotlib.pyplot.close()
-    #
-    #     lines_list = list(set(from_list + to_list))
-    #     save_patch_csv = save_patch + '!_meta.tsv'
-    #     save_first_row(path=save_patch_csv, row=default_keys)
-    #     temp_meta = list()
-    #     for index in lines_list:
-    #         shutil.copyfile(
-    #             PATH_TO_FILES + data_dict['filename'][index],
-    #             save_patch + data_dict['filename'][index]
-    #         )
-    #         temp_temp_meta = list()
-    #         for key_i in default_keys:
-    #             temp_temp_meta.append(data_dict[key_i][index])
-    #         temp_meta.append(temp_temp_meta)
-    #
-    #     csv_line_writer(path=save_patch_csv, data=temp_meta)
+            write_data_bin(PATH_TO_HEX + file + '.hex', body_file)
 
     print(BADLY)
     print(HEX_DATA)
