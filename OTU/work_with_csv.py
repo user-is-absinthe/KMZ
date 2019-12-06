@@ -26,7 +26,7 @@ def csv_data_writer(path, data, separator='\t', encode='utf-16'):
 def csv_reader(path, separator, headline=False, encode='utf-16'):
     with open(path, 'r', encoding=encode) as file:
         csv_file = file.readlines()
-    csv_file = [this.strip() for this in csv_file]
+    csv_file = [this[:-1] for this in csv_file]
     if headline:
         keys_to_dict = csv_file[0].split(separator)
     else:
@@ -41,7 +41,9 @@ def csv_reader(path, separator, headline=False, encode='utf-16'):
             continue
         separated_line = line.split(separator)
         for index in range(len(keys_to_dict)):
-            opened_csv[keys_to_dict[index]].append(separated_line[index])
+            temp_keys_to_dict = keys_to_dict[index]
+            temp_separated_line = separated_line[index]
+            opened_csv[temp_keys_to_dict].append(temp_separated_line)
 
     return opened_csv
 
