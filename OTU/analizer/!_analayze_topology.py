@@ -4,11 +4,10 @@ import binascii
 import networkx
 import matplotlib.pyplot
 import shutil
-import sys
 
 
-PATH_TO_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/тг/'
-PATH_TO_SAVE_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/tg_out/'
+PATH_TO_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/in/tg/'
+PATH_TO_SAVE_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/out/tg/'
 TO_CHECK = r'.tlg'
 
 # PATH_TO_HEX = PATH_TO_SAVE_FILES + r'hex_files/'
@@ -271,7 +270,7 @@ def read_data_bin(fname, reusable=False, body=None):
     len_meta_data = len("".join([chr(i) for i in bin_file]).split("\n")[0].strip())
     meta_data_raw = bin_file[0:len_meta_data]
     meta_encode = chardet.detect(meta_data_raw)['encoding']
-    print(chardet.detect(meta_data_raw))
+    # print(chardet.detect(meta_data_raw))
     if chardet.detect(meta_data_raw)['confidence'] < 0.9:
         meta_encode = 'windows-1251'
     try:
