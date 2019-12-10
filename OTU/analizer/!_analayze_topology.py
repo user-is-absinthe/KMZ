@@ -6,9 +6,19 @@ import matplotlib.pyplot
 import shutil
 
 
-PATH_TO_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/in/tg/'
-PATH_TO_SAVE_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/out/tg/'
-TO_CHECK = r'.tlg'
+# OPENED = False
+OPENED = True
+
+
+if OPENED:
+    mini_dir = 'opened'
+else:
+    mini_dir = 'closed'
+
+
+PATH_TO_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/in/{0}/'.format(mini_dir)
+PATH_TO_SAVE_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/out/{0}/'.format(mini_dir)
+TO_CHECK = [r'.tlg', r'.']
 
 # PATH_TO_HEX = PATH_TO_SAVE_FILES + r'hex_files/'
 PATH_TO_CSV = PATH_TO_SAVE_FILES + r'!_meta.tsv'
@@ -44,8 +54,14 @@ def main():
     # all_data = list()
     big_graph = networkx.MultiDiGraph()
     for index, file in enumerate(files):
-        print('{0}%\t\t-\t\t{1}/{2}'.format(round((index + 1) / len(files) * 100), index + 1, len(files)))
-        if TO_CHECK in file:
+        print('Created big graph: {0}%\t\t-\t\t{1}/{2}'.format(
+            round((index + 1) / len(files) * 100), index + 1, len(files)
+        ))
+        check_flag = False
+        for c in TO_CHECK:
+            if c in file:
+                check_flag = True
+        if check_flag:
             to_file, body_file = worker(p + file)
             if to_file == -1:
                 # continue
@@ -84,6 +100,7 @@ def main():
         networkx.weakly_connected_components(big_graph),
         key=len, reverse=True
     )
+    print('Created minigraphs.')
     minigraph_list = list()
     for user_list in weak_connectivity_list:
         temp_graph = networkx.MultiDiGraph()
@@ -107,8 +124,12 @@ def main():
         headline=True, encode=ENCODING
     )
 
-    for t_graph in minigraph_list:
+    for index, t_graph in enumerate(minigraph_list):
+        print('Work with minigraphs: {0}%\t\t-\t\t{1}/{2}'.format(
+            round((index + 1) / len(minigraph_list) * 100), index + 1, len(minigraph_list)
+        ))
         user_list = t_graph.nodes
+        lines_list = list()
         for node in user_list:
             try:
                 # from_list = data_dict['from'].index(node)
@@ -120,7 +141,8 @@ def main():
                 to_list = [i for i, x in enumerate(data_dict['to']) if x == node]
             except ValueError:
                 to_list = []
-
+            lines_list += from_list
+            lines_list += to_list
             # print(from_list)
             # print(to_list)
 
@@ -130,7 +152,7 @@ def main():
         matplotlib.pyplot.savefig(save_patch + '!_graph' + '.png', format='png')
         matplotlib.pyplot.close()
 
-        lines_list = list(set(from_list + to_list))
+        lines_list = list(set(lines_list))
         save_patch_csv = save_patch + '!_meta.tsv'
         save_first_row(path=save_patch_csv, row=default_keys)
         temp_meta = list()
@@ -146,8 +168,8 @@ def main():
 
         csv_line_writer(path=save_patch_csv, data=temp_meta)
 
-    print(BADLY)
-    print(HEX_DATA)
+    # print(BADLY)
+    # print(HEX_DATA)
 
     # move badly
     for p in HEX_DATA:
@@ -283,7 +305,7 @@ def read_data_bin(fname, reusable=False, body=None):
     try:
         meta_data = get_meta(meta_data)
     except IndexError:
-        print(fname)
+        # print(fname)
         HEX_DATA.append(fname)
         BADLY += 1
         return -1, -1
