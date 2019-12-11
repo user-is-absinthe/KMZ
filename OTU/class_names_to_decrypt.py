@@ -28,7 +28,8 @@ def main(path_to_csv, path_to_exit_file):
         pass
     with open(path_to_exit_file, 'w') as file:
         for l in exit_list:
-            file.write(l.replace('.ktg', '') + '\r\n')
+            ln = l.split('_')
+            file.write(ln[1].replace('.ktg', '') + '\r\n')
 
 
 def csv_reader(path, separator, headline=False, encode='utf-16'):
