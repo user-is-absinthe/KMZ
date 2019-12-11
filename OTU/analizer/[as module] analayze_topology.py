@@ -6,8 +6,8 @@ import matplotlib.pyplot
 import shutil
 
 
-OPENED = False
-# OPENED = True
+# OPENED = False
+OPENED = True
 
 
 if OPENED:
@@ -18,39 +18,34 @@ else:
 
 PATH_TO_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/in/{0}/'.format(mini_dir)
 PATH_TO_SAVE_FILES = r'/Users/owl/Pycharm/PycharmProjects/KMZ/OTU/files/out/{0}/'.format(mini_dir)
-TO_CHECK = [r'.tlg', r'.']
+TO_CHECK = [r'.tlg', r'.ktg']
 
 # PATH_TO_HEX = PATH_TO_SAVE_FILES + r'hex_files/'
-PATH_TO_CSV = PATH_TO_SAVE_FILES + r'!_meta.tsv'
-PATH_TO_IMG = PATH_TO_SAVE_FILES + r'groups/'
-PATH_TO_BAD = PATH_TO_SAVE_FILES + r'unknown/'
+PATH_TO_CSV = r'!_meta.tsv'
+PATH_TO_IMG = r'groups/'
+PATH_TO_BAD = r'unknown/'
 
 BADLY = 0
 HEX_DATA = list()
 ENCODING = 'utf-16'
 
-CH = [
-    PATH_TO_IMG, PATH_TO_BAD
-]
-for p_i in CH:
-    try:
-        os.makedirs(p_i)
-    except FileExistsError:
-        pass
 
-if os.path.exists(PATH_TO_CSV):
-    NEW_LINE = False
-else:
-    NEW_LINE = True
-
-
-def main():
+def main(
+    path_to_files, path_to_save, opened
+):
     global BADLY, HEX_DATA, TO_CHECK
-    p = PATH_TO_FILES
+    path_to_csv = path_to_save + PATH_TO_CSV
+    path_to_img = path_to_save + PATH_TO_IMG
+    path_to_bad = path_to_save + PATH_TO_BAD
+
+    ch = [
+        path_to_img, path_to_bad
+    ]
+    p = path_to_files
     files = os.listdir(p)
     default_keys = ['filename', 'ktg', 'tlg', 'time', 'from', 'to', 'Tmake', 'case']
-    if NEW_LINE:
-        save_first_row(path=PATH_TO_CSV, row=default_keys)
+    if not os.path.exists(path_to_csv):
+        save_first_row(path=path_to_csv, row=default_keys)
     # all_data = list()
     big_graph = networkx.MultiDiGraph()
     for index, file in enumerate(files):
@@ -83,7 +78,7 @@ def main():
                 # }
                 continue
             csv_line_writer(
-                path=PATH_TO_CSV,
+                path=path_to_csv,
                 data=to_file_l,
                 separator='\t',
                 encode=ENCODING
@@ -93,7 +88,7 @@ def main():
             big_graph.add_edge(to_file_l[4], to_file_l[5])
 
     networkx.draw(big_graph, with_labels=True)
-    matplotlib.pyplot.savefig(PATH_TO_IMG + '!_big_graph.png', format='png')
+    matplotlib.pyplot.savefig(path_to_img + '!_big_graph.png', format='png')
     matplotlib.pyplot.close()
 
     weak_connectivity_list = sorted(
@@ -120,7 +115,7 @@ def main():
     # matplotlib.pyplot.show()
 
     data_dict = csv_reader(
-        path=PATH_TO_CSV, separator='\t',
+        path=path_to_csv, separator='\t',
         headline=True, encode=ENCODING
     )
 
@@ -147,7 +142,7 @@ def main():
             # print(to_list)
 
         networkx.draw_shell(t_graph, with_labels=True)
-        save_patch = PATH_TO_IMG + str(user_list) + '/'
+        save_patch = path_to_img + str(user_list) + '/'
         check_patch(save_patch)
         matplotlib.pyplot.savefig(save_patch + '!_graph' + '.png', format='png')
         matplotlib.pyplot.close()
@@ -156,27 +151,27 @@ def main():
         save_patch_csv = save_patch + '!_meta.tsv'
         save_first_row(path=save_patch_csv, row=default_keys)
         temp_meta = list()
-        for index in lines_list:
+        for index_ in lines_list:
             shutil.copyfile(
-                PATH_TO_FILES + data_dict['filename'][index],
-                save_patch + data_dict['filename'][index]
+                path_to_files + data_dict['filename'][index_],
+                save_patch + data_dict['filename'][index_]
             )
             temp_temp_meta = list()
             for key_i in default_keys:
-                temp_temp_meta.append(data_dict[key_i][index])
+                temp_temp_meta.append(data_dict[key_i][index_])
             temp_meta.append(temp_temp_meta)
 
-        csv_data_writer(path=save_patch_csv, data=temp_meta)
+        csv_line_writer(path=save_patch_csv, data=temp_meta)
 
     # print(BADLY)
     # print(HEX_DATA)
 
     # move badly
     for p in HEX_DATA:
-        f_name = p.replace(PATH_TO_FILES, '')
+        f_name = p.replace(path_to_files, '')
         shutil.copyfile(
             p,
-            PATH_TO_BAD + f_name
+            path_to_bad + f_name
         )
 
 
@@ -319,18 +314,10 @@ def write_data_bin(fname, data):
         f.write(data)
 
 
-def csv_data_writer(path, data, separator='\t', encode='utf-16'):
-    with open(path, 'a', encoding=encode) as csv_file:
-        for line in data:
-            now_line = ''
-            for index_column in range(len(line)):
-                now_line += str(line[index_column])
-                if index_column != len(line) - 1:
-                    now_line += separator
-            now_line += '\n'
-            csv_file.write(now_line)
-    pass
-
-
 if __name__ == '__main__':
-    main()
+    main(
+        path_to_files='',
+        path_to_save='',
+        opened=True,
+
+    )

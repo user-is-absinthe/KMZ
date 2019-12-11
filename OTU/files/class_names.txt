@@ -1,0 +1,10 @@
+    CATERINE     = caterine - 57
+RSA          = RSA
+STB1         = 'STB1/'
+SUBSTITUTION = 'Подстановка/'
+    SIMPLE_REPL  = 'Простая замена/' - 51
+    REKS         = reks - 80
+    UGROZA       = 'Угроза НАТО/' - 82
+CITADEL      = citadel
+OTHER        = unknown
+CITADEL_CATERINE = citadel_caterine
